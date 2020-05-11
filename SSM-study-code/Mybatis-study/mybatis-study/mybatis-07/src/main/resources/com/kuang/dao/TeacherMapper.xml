@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuang.dao.TeacherMapper">
+
+    <!--==================按结果嵌套处理===================-->
+    <select id="getTeacher" resultMap="TeacherStudent">
+        select s.id sid, s.name sname, t.name tname, t.id tid
+        from student s,teacher t
+        where s.tid=t.id and t.id = #{tid}
+    </select>
+    <resultMap id="TeacherStudent" type="Teacher">
+        <result column="tid" property="id"/>
+        <result column="tname" property="name"/>
+        <!--复杂的属性我们需要单独处理 对象：association 集合：collection
+        javaType="" 指定属性的类型！
+        这里是取出里面的每一个值，每一个值去对应的就不用写JavaType
+        集合中的泛型信息，我们使用ofType获取
+
+    -->
+        <collection property="students" ofType="Student">
+            <result column="sid" property="id"/>
+            <result column="sname" property="name"/>
+            <result column="tid" property="tid"/>
+        </collection>
+    </resultMap>
+    <!--==================按查询嵌套处理===================-->
+    <select id="getTeacher2" resultMap="TeacherStudent2">
+        select * from teacher where id = #{tid}
+    </select>
+    <resultMap id="TeacherStudent2" type="Teacher">
+        <!--id name 都一样可以省略-->
+        <!--<result property="id" column="id"/>
+        <result property="name" column="name"/>-->
+        <!--
+            property="students"     为实体类中对应的名字
+            javaType="ArrayList"     指定属性的类型 因为private List<Student> students;中放回的类型为集合所以JavaType就是ArrayList
+                                      上面的那个不用写javaType，因为上那个取出里面的每一个值去对应的，下面这个本来就是一个集合，集合类型就是ArrayList
+            ofType="Student"
+            这里的column="id"的id为；老师的id传给下面
+        -->
+        <collection property="students"  javaType="ArrayList" ofType="Student" select="getStudentByTeacherId" column="id"/>
+    </resultMap>
+<select id="getStudentByTeacherId" resultType="Student">
+    select * from student where tid = #{tid}
+</select>
+</mapper>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function Loadpage() {
+        var targeturl = document.getElementById('url').value;
+        console.log(targeturl);
+        document.getElementById("iframePosition").src = targeturl;
+    }
+</script>
+
+<body>
+
+<div >
+    <p>请输入要加载的地址: <span id="currentTime"></span></p>
+    <p>
+    <input id="url" type="text" value="https://www.baidu.com/"/>
+    <input type="button" value="提交" onclick="Loadpage()">
+    </p>
+</div>
+<div>
+    <h3>加载页面位置: </h3>
+        <iframe id="iframePosition" style= "width: 100%;height: 500px;"></iframe>
+</div>
+
+</body>
+</html>

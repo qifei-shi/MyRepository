@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <!--标准的日志工厂实现-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--别名-->
+    <typeAliases>
+        <package name="com.kuang.pojo"/>
+    </typeAliases>
+
+    <!--绑定Mapper.xml-->
+    <!--两个名字一样可以用class, 不一样就定位到Resource-->
+    <mappers>
+        <mapper class="com.kuang.dao.BooksMapper"/>
+    </mappers>
+
+</configuration>

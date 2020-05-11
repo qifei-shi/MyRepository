@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--conf核心配置文件-->
+<mapper namespace="com.kuang.dao.BlogMapper">
+
+    <sql id="if-title-author">
+        <if test="title != null">
+            and title = #{title}
+        </if>
+        <if test="author != null">
+            and author = #{title}
+        </if>
+    </sql>
+
+    <insert id="addBlog" parameterType="blog">
+       insert into mybatis.blog(id, title, author, create_time, views)
+       VALUE (#{id}, #{title}, #{author}, #{createTime}, #{views});
+    </insert>
+
+    <select id="queryBlogIF" parameterType="map" resultType="blog">
+        select * from mybatis.blog
+        <where>
+            <include refid="if-title-author"/>
+        </where>
+    </select>
+
+    <select id="queryBlogChoose" resultType="blog" parameterType="map">
+        select * from mybatis.blog
+        <where>
+            <choose>
+                <when test="title != null">
+                    title = #{title}
+                </when>
+                <when test="author != null">
+                    author = #{author}
+                </when>
+                <otherwise>
+                    views = #{views}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--int updateBlog(Map map);-->
+    <update id="updateBlog"  parameterType="map">
+        update mybatis.blog
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="views != null">
+                views = #{views}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--List<Blog> queryBlogForeach(Map map);-->
+    <!--select * from blog where 1=1 and (id=1 or id=2 or id=3)-->
+    <!--我们传递一个万能的map，这个map中可以存在一个集合-->
+    <select id="queryBlogForeach" parameterType="map" resultType="Blog">
+        select * from mybatis.blog
+            <where>
+                <foreach collection="ids" item="id" open="and (" close=")" separator="or" >
+                    id = #{id}
+                </foreach>
+
+            </where>
+    </select>
+
+</mapper>

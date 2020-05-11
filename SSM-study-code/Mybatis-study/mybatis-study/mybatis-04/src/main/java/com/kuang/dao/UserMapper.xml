@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace=绑定一个对应的Dao/Mapper接口-->
+<mapper namespace="com.kuang.dao.UserMapper">
+
+
+
+    <!--结果集映射-->
+    <!--id随便起的，与下面resultMap内的名字保持一致;  type对应实体类-->
+    <!--column对一应字段名    property对应实体类中的名字-->
+    <resultMap id="UserMap" type="User">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="pwd" property="password"/>
+    </resultMap>
+
+    <!--id=对应的方法名   resultMap=返回的结果集-->
+    <!--根据ID查询用户-->
+    <select id="getUserById" parameterType="int" resultMap="UserMap">
+        select * from mybatis.user where id = #{id};
+    </select>
+
+    <!--分页  利用Limit实现-->
+    <select id="getUserByLimit" parameterType="map" resultMap="UserMap">
+        select * from mybatis.user limit #{startIndex}, #{pageSize}
+    </select>
+
+    <!--分页  利用RowBounds实现-->
+    <select id="getUserByRowBounds"  resultMap="UserMap">
+        select * from mybatis.user;
+    </select>
+
+</mapper>
