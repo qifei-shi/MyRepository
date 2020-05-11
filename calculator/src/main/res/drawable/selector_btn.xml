@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!--鼠标按压状态-->
+    <item android:drawable="@color/colorAccent" android:state_pressed="true" />
+
+    <!--正常状态 写在最后面-->
+    <item android:drawable="@drawable/border"></item>
+
+</selector>

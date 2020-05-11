@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--按钮-->
+    <!--    android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:textSize="20sp"
+            android:background="@drawable/selector_btn"-->
+
+    <style name="btn_style">
+        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:background">@drawable/selector_btn</item>
+    </style>
+</resources>
